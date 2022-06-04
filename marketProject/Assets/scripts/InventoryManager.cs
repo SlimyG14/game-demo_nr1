@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
+   //public static SetGold setGold;
+
     public static InventoryManager Instance;
     public List<Item> Items = new List<Item>();
 
@@ -21,6 +23,7 @@ public class InventoryManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        //setGold = new SetGold();
     }
 
     public void Add(Item item)
@@ -46,16 +49,17 @@ public class InventoryManager : MonoBehaviour
             }
             ListItems();
         }
-        else if (item.itemCounter.Equals(0))
+        else
         {
             Items.Add(item);
             Add(item);
-          }
+        }
         
     }
 
     public void Remove(Item item)
     {
+
         if (Items.Contains(item))
         {
             if (item.itemName.Contains("Red Ore"))
@@ -63,17 +67,18 @@ public class InventoryManager : MonoBehaviour
                 counterRedOre = 0;
             }
             else if (item.itemName.Contains("Stone"))
-            {  
+            {
                 counterStone = 0;
 
             }
             else if (item.itemName.Contains("Stick"))
             {
-               
+
                 counterStick = 0;
             }
-
         }
+
+        
         Items.Remove(item);
     }
     private void Update()
@@ -104,18 +109,24 @@ public class InventoryManager : MonoBehaviour
 
                 if (itemName.text.ToString().Contains("Red Ore"))
                 {
+                    item.value = 10;
                     var itemStack = obj.transform.Find("counter").GetComponent<Text>();
                     itemStack.text = counterRedOre.ToString();
+                    item.itemCounter = counterRedOre;
                 }
                 if (itemName.text.ToString().Contains("Stone"))
                 {
+                    item.value = 5;
                     var itemStack = obj.transform.Find("counter").GetComponent<Text>();
                     itemStack.text = counterStone.ToString();
+                    item.itemCounter = counterStone;
                 }
                 if (itemName.text.ToString().Contains("Stick"))
                 {
+                    item.value = 3;
                     var itemStack = obj.transform.Find("counter").GetComponent<Text>();
                     itemStack.text = counterStick.ToString();
+                    item.itemCounter = counterStick;
                 }
 
         }
@@ -129,5 +140,16 @@ public class InventoryManager : MonoBehaviour
         {
             itemArray[i].AddItem(Items[i]);
         }
+    }
+
+
+    public void sellItem(int ammount, Item item)
+    {
+            
+            int calc = item.value * ammount;
+            int money = calc;
+            Debug.Log("Money made from this one: " + money);
+        SetGold.setgold.SetGoldCoins(money);
+        
     }
 }

@@ -16,6 +16,7 @@ public class ItemSell : MonoBehaviour
         Debug.Log("Item that im selling before selling: " + item);
         InventoryManager.Instance.AddItems();
         InventoryManager.Instance.Remove(item);
+        InventoryManager.Instance.sellItem(item.itemCounter, item);
         Destroy(gameObject);
     }
 
